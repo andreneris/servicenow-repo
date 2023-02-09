@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="scan_linter_check">
+    <scan_linter_check action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <category>upgradability</category>
+        <description>It is not necessary to include the sys_id of a reference field when dot-walking, as in the following example:&#13;
+var id = current.caller_id.sys_id; // Wrong&#13;
+The value of a reference field is a sys_id. When you dot-walk to the sys_id, the system does an additional database query to retrieve the caller_id record, then retrieves the sys_id. This is poor coding practice and introduces additional database overhead.&#13;
+&#13;
+</description>
+        <documentation_url>https://www.servicenow.com/community/now-platform-articles/demystifying-instance-scan-linter-check/ta-p/2312466</documentation_url>
+        <finding_type>scan_finding</finding_type>
+        <name>Print AST Structure</name>
+        <priority>2</priority>
+        <resolution_details>Initially understanding the AST structure for any script ma seem convoluted. However, here's the trick you may use yo generate the AST for any script.&#13;
+&#13;
+Create a Linter Check &lt;&lt;Print AST Structure&gt;&gt; with below script to log the AST structure-&#13;
+(function(engine) {&#13;
+&#13;
+    engine.rootNode.visit(function(node) {&#13;
+        if (node.getAbsolutePosition() === 0 &amp;&amp; node.getTypeName() === 'SCRIPT') {&#13;
+            gs.info("Print AST Structure " + '\n' + node.debugPrint());&#13;
+        }&#13;
+    });&#13;
+&#13;
+})(engine);&#13;
+ Create a Combo record &lt;&lt;scan_combo.do&gt;&gt; with Sources=Linter Check &lt;&lt;Print AST Structure&gt;&gt; and Targets=Client Script: Alert Incident State find_real_file.png&#13;
+Click Execute  Scan&#13;
+Navigate to System Logs to view the AST. This is similar to one shown in above section &lt;&lt;ServiceNow Script AST&gt;&gt;. This is the KEY on how to utilize AST structure while creating Linter Checks. Here once can easily view "Nodes", Parents, Position etc.</resolution_details>
+        <run_condition/>
+        <score_max>100</score_max>
+        <score_min>0</score_min>
+        <score_scale>1</score_scale>
+        <script><![CDATA[(function (engine) {
+	engine.rootNode.visit(function(node) {
+		if (node.getAbsolutePosition() === 0 && node.getTypeName() === 'SCRIPT') {
+			gs.info("Print AST Structure " + '\n' + node.debugPrint());
+		}
+	});
+
+})(engine);]]></script>
+        <short_description>Print AST Structure</short_description>
+        <sys_class_name>scan_linter_check</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-02-08 16:56:59</sys_created_on>
+        <sys_id>7d75878b97706110f1d072d11153af67</sys_id>
+        <sys_name>Print AST Structure</sys_name>
+        <sys_package display_value="aci" source="x_670848_aci">04628f0b97706110f1d072d11153af22</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="aci">04628f0b97706110f1d072d11153af22</sys_scope>
+        <sys_update_name>scan_linter_check_7d75878b97706110f1d072d11153af67</sys_update_name>
+    </scan_linter_check>
+</record_update>

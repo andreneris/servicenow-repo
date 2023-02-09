@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="scan_linter_check">
+    <scan_linter_check action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <category>upgradability</category>
+        <description>Use g_form API instead of alert messages</description>
+        <documentation_url/>
+        <finding_type>scan_finding</finding_type>
+        <name>Use g_form API instead of alert messages</name>
+        <priority>2</priority>
+        <resolution_details/>
+        <run_condition/>
+        <score_max>100</score_max>
+        <score_min>0</score_min>
+        <score_scale>1</score_scale>
+        <script><![CDATA[(function(engine) {
+
+    engine.rootNode.visit(function(node) {
+        if (node.getNameIdentifier() &&
+            node.getTypeName() === 'NAME' &&
+            node.getParent().getTypeName() === 'CALL' &&
+            (node.getNameIdentifier() === 'alert')) {
+            engine.finding.incrementWithNode(node);
+        }
+    });
+
+})(engine);]]></script>
+        <short_description>Use g_form API instead of alert messages</short_description>
+        <sys_class_name>scan_linter_check</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-02-08 17:14:35</sys_created_on>
+        <sys_id>b379c3cb97b06110f1d072d11153af57</sys_id>
+        <sys_name>Use g_form API instead of alert messages</sys_name>
+        <sys_package display_value="aci" source="x_670848_aci">04628f0b97706110f1d072d11153af22</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="aci">04628f0b97706110f1d072d11153af22</sys_scope>
+        <sys_update_name>scan_linter_check_b379c3cb97b06110f1d072d11153af57</sys_update_name>
+    </scan_linter_check>
+</record_update>
